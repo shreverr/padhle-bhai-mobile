@@ -1,12 +1,31 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import ListItems from './components/ListItems';
+import Header from './components/Header';
+import NewTask from './components/NewTask';
+import { useState } from 'react';
 
 export default function App() {
+  // let tasks = [ "I like cats 😻 😻", "lorem", "ipsum"  ]
+  const [tasks, setTasks] = useState(["I like cats 😻 😻"])
+
+  const addTask = (task) => {
+    setTasks([...tasks, task])
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <Header />
+      <View style={styles.container}>
+        <StatusBar style="" />
+        <ScrollView style={styles.scrollView}>
+          {tasks.map((task, index) => {
+            return <ListItems key={index} title={task} />
+          })}
+        </ScrollView>
+        <NewTask style={styles.newTask} />
+      </View>
+    </>
   );
 }
 
@@ -15,6 +34,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    padding: 10,
   },
+  text: {
+    color: "red",
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  scrollView: {
+    width: "100%",
+  }
 });
