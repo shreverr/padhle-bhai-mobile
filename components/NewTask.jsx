@@ -1,28 +1,35 @@
 import react from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Keyboard, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
-const NewTask = ({ items }) => {
-  return (<View style={styles.wrapper}>
-    <TextInput
-      style={styles.input}
-    // onChangeText={onChangeText}
-    // value="ASdsa"
-    />
-    <Pressable
-      // onPress={() => {
-      //   setTimesPressed(current => current + 1);
-      // }}
-      style={({ pressed }) => [
-        styles.wrapperCustom,
-        {
-          backgroundColor: pressed ? '#b6ff92' : '#53ff00',
-        },
-      ]}>
-      {({ pressed }) => (
-        <Text style={styles.text}>+</Text>
-      )}
-    </Pressable>
-  </View>
+const NewTask = ({ newTask }) => {
+  const [newTaskText, setNewTaskText] = react.useState("");
+
+  return (
+    <View style={styles.wrapper}>
+      <TextInput
+        style={styles.input}
+        multiline={true}
+        placeholder="New task"
+        onChangeText={(value) => { setNewTaskText(value) }}
+        value={newTaskText}
+      />
+      <Pressable
+        onPress={() => {
+          Keyboard.dismiss()
+          newTask(newTaskText)
+          setNewTaskText("")
+        }}
+        style={({ pressed }) => [
+          styles.wrapperCustom,
+          {
+            backgroundColor: pressed ? '#b6ff92' : '#53ff00',
+          },
+        ]}>
+        {({ pressed }) => (
+          <Text style={styles.text}>+</Text>
+        )}
+      </Pressable>
+    </View>
   )
 }
 
@@ -47,9 +54,6 @@ const styles = StyleSheet.create({
     padding: 6,
     height: 70,
     width: 70,
-    // position: "absolute",
-    // bottom: 20,
-    // right: 20,
   },
   input: {
     height: 70,

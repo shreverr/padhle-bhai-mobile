@@ -6,11 +6,34 @@ import NewTask from './components/NewTask';
 import { useState } from 'react';
 
 export default function App() {
-  // let tasks = [ "I like cats 😻 😻", "lorem", "ipsum"  ]
-  const [tasks, setTasks] = useState(["I like cats 😻 😻"])
+  const [taskId, setTaskId] = useState(0)
+  const [tasks, setTasks] = useState([])
 
-  const addTask = (task) => {
-    setTasks([...tasks, task])
+  const newTask = (task) => {
+    setTasks([...tasks, {
+      taskId: taskId,
+      taskDisc: task,
+      isDone: false,
+    }])
+    setTaskId(taskId + 1)
+  }
+
+  const toggleIsDone = (id) => {
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].taskId === id) {
+        tasks[i].isDone = !tasks[i].isDone
+      }
+    }
+  }
+
+  const getRemainingTasksCount = () => {
+    let count = 0
+    tasks.map(task => {
+      if (task.isDone === false) {
+        count++
+      }
+    })
+    return count
   }
 
   return (
@@ -20,10 +43,10 @@ export default function App() {
         <StatusBar style="" />
         <ScrollView style={styles.scrollView}>
           {tasks.map((task, index) => {
-            return <ListItems key={index} title={task} />
+            return <ListItems key={index} title={task.taskDisc} id={task.taskId} toggleIsDone={toggleIsDone} />
           })}
         </ScrollView>
-        <NewTask style={styles.newTask} />
+        <NewTask style={styles.newTask} newTask={newTask} />
       </View>
     </>
   );

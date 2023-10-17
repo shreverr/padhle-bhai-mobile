@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 
-const ListItems = ({ title }) => {
+const ListItems = ({ title, id, toggleIsDone }) => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false)
   return (
     <View
@@ -25,8 +25,10 @@ const ListItems = ({ title }) => {
         }
         iconStyle={{ borderColor: "blue" }}
         innerIconStyle={{ borderWidth: 2 }}
-        onPress={(isChecked) => { setToggleCheckBox(isChecked) }}
-        isChecked={toggleCheckBox}
+        onPress={(isChecked) => { 
+          setToggleCheckBox(isChecked)
+          toggleIsDone(id)
+        }}
       />
     </View>
   )
@@ -44,10 +46,9 @@ const styles = StyleSheet.create({
   },
   card: {
     display: "flex",
-    // justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
-    height: 70,
+    minHeight: 70,
     borderRadius: 20,
     paddingHorizontal: 30,
     width: "100%",
